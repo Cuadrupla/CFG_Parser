@@ -1,3 +1,6 @@
+import argparse, pathlib
+from itertools import chain
+
 def reading(nonTerminals, terminals, rules, file_name):
     f = open(file_name)
     linie = f.readline()
@@ -137,11 +140,15 @@ def validate_solution(startNonTerminal, road):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Given a specific config file we need to parse the contents of it.')
+    parser.add_argument('file', type=pathlib.Path)
+    args = parser.parse_args()
+
     try:
-        reading(nonTerminals, terminals, rules, "cfg_config_file.txt")
+        reading(nonTerminals, terminals, rules, args.file)
         if validate_solution(start, ""):
             print("The received config is a valid CFG")
         else:
             print("The received automata config is NOT a valid CFG")
     except Exception as exception:
-        print(exception.args[0])
+        print(exception.args)
